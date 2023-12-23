@@ -4137,11 +4137,29 @@ struct LoraModel {
                 continue;
             }
             k_tensor = k_tensor.substr(0, k_pos);
-            replace_all_chars(k_tensor, '.', '_');
-            std::string lora_up_name   = "lora." + k_tensor + ".lora_up.weight";
-            std::string lora_down_name = "lora." + k_tensor + ".lora_down.weight";
-            std::string alpha_name     = "lora." + k_tensor + ".alpha";
-            std::string scale_name     = "lora." + k_tensor + ".scale";
+            //replace_all_chars(k_tensor, '.', '_');
+            std::string lora_up_name   = "" + k_tensor + ".lora_B.weight";
+            std::string lora_down_name = "" + k_tensor + ".lora_A.weight";
+            std::string alpha_name     = "" + k_tensor + ".alpha";
+            std::string scale_name     = "" + k_tensor + ".scale";
+
+// model.diffusion_model.input_blocks.1.1.transformer_blocks.0.attn1.to_out.0.lora_up.weight
+// model.diffusion_model.input_blocks.1.1.transformer_blocks.0.attn1.to_q.lora_up.weight
+// model.diffusion_model.input_blocks.1.1.transformer_blocks.0.attn1.to_v.lora_up.weight
+// model.diffusion_model.input_blocks.1.1.transformer_blocks.0.attn2.to_k.lora_up.weight
+// model.diffusion_model.input_blocks.1.1.transformer_blocks.0.attn2.to_out.0.lora_up.weight
+// model.diffusion_model.input_blocks.1.1.transformer_blocks.0.attn1.to_k.lora_up.weight
+// model.diffusion_model.input_blocks.1.1.transformer_blocks.0.attn2.to_q.lora_up.weight
+// model.diffusion_model.input_blocks.1.1.transformer_blocks.0.attn2.to_v.lora_up.weight
+// model.diffusion_model.input_blocks.1.1.transformer_blocks.0.ff.net.0.proj.lora_up.weight
+// model.diffusion_model.input_blocks.1.1.transformer_blocks.0.ff.net.2.lora_up.weight              [DEBUG] stable-diffusion.cpp:3983 - Candidate lora_up_name: model.diffusion_model.input_blocks.1.1.transformer_blocks.0.norm1.lora_up.weight
+// model.diffusion_model.input_blocks.1.1.transformer_blocks.0.norm2.lora_up.weight
+// model.diffusion_model.input_blocks.1.1.transformer_blocks.0.norm3.lora_up.weight
+
+            //LOG_DEBUG("Candidate lora_up_name: %s", lora_up_name.c_str());
+            //LOG_DEBUG("Candidate lora_down_name: %s", lora_down_name.c_str());
+            //LOG_DEBUG("Candidate alpha_name: %s", alpha_name.c_str());
+            //LOG_DEBUG("Candidate scale_name: %s", scale_name.c_str());
 
             ggml_tensor* lora_up   = NULL;
             ggml_tensor* lora_down = NULL;
